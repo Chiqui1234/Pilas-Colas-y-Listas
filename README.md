@@ -1,9 +1,15 @@
 # Temario
-# Estructuras dinámicas
-* Pilas: "filo" (primero entrado, último salido; sirve para invertir el órden del registro). Funciones "push" (agregar), "pop" (leer y sacar), empty (ver si está vacío) y init (inicializar).
-* Colas: "fifo" (primero entrado primero salido; sirve para "encolar"). Funciones "push", "pop", empty y init.
-* Listas: se puede leer sin sacar, ideal para operaciones de búsqueda.
 
+### Las pilas, colas y listas son estructuras dinámicas:
+* Pilas: "filo" (primero entrado, último salido; sirve para invertir el órden del registro).
+* Colas: "fifo" (primero entrado primero salido; sirve para "encolar").
+* Listas: se puede leer sin borrar, ideal para operaciones de búsqueda.
+
+# Funciones imprescindibles
+* push() para agregar un registro.
+* pop() para leer y quitar un registro.
+* empty() para chequear si el registro contiene datos.
+* init() para inicializar un registro
 
 # Tipos de ordenamiento
 ## FILO: "First input, last output" (Pila)
@@ -15,8 +21,9 @@ Si yo tengo una biblioteca de 4 libros y los saco para apoyarlos en una mesa, un
 ## FIFO: "First input, first output" (Cola)
 ![FIFO](https://github.com/Chiqui1234/Pilas-Colas-y-Listas/blob/master/assets/img/pilas-colas-listas/fifo.gif)
 
-La primer bola en la cadena de producción será la primera en salir. La segunda bola en entrar será la segunda en salir, y así...
+El primer vehículo en entrar en esa línea de producción será el primero en salir. El segundo en entrar será el segundo en salir, y así sucesivamente.
 En otras palabras, es una forma de encolar procesos a ejecutar después (a partir del primer proceso creado).
+¿Alguna vez enviaste varios archivos a imprimir y te salió "La cola de impresión"? Es tal cual :D
 
 ## Listas
 (in progress...)
