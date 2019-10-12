@@ -5,16 +5,35 @@
 * Listas: se puede leer sin sacar, ideal para operaciones de búsqueda.
 
 ## Tipos de ordenamiento
-### FILO: "First input, last output"
-!(FILO)[https://i.gifer.com/P09U.gif]
+### FILO: "First input, last output" (Pila)
+!(FILO)[https://github.com/Chiqui1234/Pilas-Colas-y-Listas/blob/master/assets/img/pilas-colas-listas/filo.gif]
 El primero en entrar es el último en salir. ¡Cómo el capitán del barco!
 Si yo tengo una biblioteca de 4 libros y los saco para apoyarlos en una mesa, uno arriba del otro, el primer libro que puse en la mesa será el último en devolverse a la biblioteca.
 
-### FIFO: "First input, first output"
-!(FIFO)[https://alellanesimd2013.files.wordpress.com/2013/09/bhqgzn7.gif]
+### FIFO: "First input, first output" (Cola)
+!(FIFO)[https://github.com/Chiqui1234/Pilas-Colas-y-Listas/blob/master/assets/img/pilas-colas-listas/fifo.gif]
 La primer bola en la cadena de producción será la primera en salir. La segunda bola en entrar será la segunda en salir, y así...
 En otras palabras, es una forma de encolar procesos a ejecutar después (a partir del primer proceso creado).
 
+### Listas
+(falta agregar)
+
 ## Conectando todo
 
-Tenemos una cabecera que apunta a una estructura del nodo.
+### Cabecera
+La cabecera es cómo un dedo que apunta a un nodo. Esta pieza de nuestro algoritmo es vital para posicionarnos rápidamente (por dirección de memoria) al nodo correspondiente cuándo queremos agregar otro nodo (push) o sacarlo (pop).
+
+### Nodos
+Dentro de una secuencia de datos, ya sea Pila o Cola, hay nodos. Estos nodos tienen una estructura de datos similar a la siguiente:
+```
+typedef struct NODO
+{
+    int dato;
+    struct NODO *partner;
+} ST_NODO;
+```
+En nuestro tipo de dato ST_NODO tenemos dos miembros.
+* **int dato**, que es el dato que queremos guardar en nuestro nodo, podría ser otro tipo de dato (depende que queremos guardar)
+* **struct NODO *partner**, que es el nodo siguiente (Cola) o anterior (Pila).
+
+¿Te acordás cuándo hablabamos de que en una pila de libros, el primero que ponía en la mesa era el último en volver a la biblioteca (el cuarto libro de la mesa)? Bueno, también podemos decir que el cuarto libro tiene relación con el tercero, el tercero con el segundo, el segundo con el primero y el primero, **con la nada misma** porque no hay un libro antes que él. Decir ésto último es el equivalente a decir que el primer nodo de nuestra Pila que creemos no tendrá relación con nada, porque antes de él no existió ningún dato.
