@@ -14,7 +14,10 @@
 # Tipos de ordenamiento
 
 ![Trump-reference](https://github.com/Chiqui1234/Pilas-Colas-y-Listas/blob/master/assets/img/pilas-colas-listas/trump.gif)
+
 Lo importante de estos conceptos es entender, antes que nada, que la cabecera apunta a un nodo y ese nodo (salvo un caso particular) tiene una referencia a otro. Seguramente si conocés el [Blockchain](https://es.wikipedia.org/wiki/Cadena_de_bloques) ésto te suene bastante conocido.
+
+Es como que dentro del Trump rubio hay otro, y otro; así sucesivamente :O
 
 ## FILO: "First input, last output" (Pila)
 ![FILO](https://github.com/Chiqui1234/Pilas-Colas-y-Listas/blob/master/assets/img/pilas-colas-listas/filo.gif)
