@@ -40,12 +40,15 @@ typedef struct NODO
 {
     int dato;
     struct NODO *partner;
-} ST_CABECERA;
+} ST_NODO;
 ```
 
-En nuestro tipo de dato ST_CABECERA tenemos dos miembros.
+En nuestro tipo de dato ST_NODO tenemos dos miembros.
 * **int dato**, que es el dato que guarda dicho nodo. Podría ser otro tipo de dato (depende que queremos guardar)
 * **struct NODO * partner**, que es el nodo siguiente (Cola) o anterior (Pila). ¡Ojo! Ahí guardamos una dirección de memoria **que apunta a otro nodo**. Osea que en dicho puntero encontraremos tanto un nodo distinto con otro dato y otro compañero (si es que tiene).
+
+![Anidación-de-nodos](https://github.com/Chiqui1234/Pilas-Colas-y-Listas/blob/master/assets/img/pilas-colas-listas/anidacionDeNodos.png)
+Acá podés ver que la cabecera (estructura ST_NODO). El último nodo creado tiene **80** cómo dato, y el nodo anterior tiene **85** cómo dato. Fijate cómo la cabecera apunta al nodo que tiene valor de 80, y ese a su vez apunta al nodo anterior que tenía 85 cómo dato :)
 
 ## Nodos
 Dentro de nuestro buffer ordenado, ya sea Pila o Cola, hay nodos con datos que pueden variar en tipo (int, double, float, char o cualquier tipo definido por el programador (estructuras de datos)).

@@ -1,0 +1,19 @@
+{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "gcc build",
+            "command": "gcc",
+            "args": [
+                "-g",
+                "${fileDirname}/filo.c",
+                "-o",
+                "${fileDirname}/filo.o"
+            ],
+            "options": {
+                "cwd": "/usr/bin"
+            }
+        }
+    ],
+    "version": "2.0.0"
+}

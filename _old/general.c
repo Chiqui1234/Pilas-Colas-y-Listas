@@ -24,12 +24,12 @@ BOOL push(ST_NODO **cabecera, int *valor)
 
 int pop(ST_NODO **cabecera)
 {
-    if(!empty(cabecera))
+    if(empty(cabecera))
         return -1;
 
     int valor = (*cabecera)->dato;
     ST_NODO *aux = *cabecera;
-    *cabecera = aux->sig; // le paso la estructura referenciada
+    *cabecera = aux->sig;
     free(aux);
     return valor;
 }
