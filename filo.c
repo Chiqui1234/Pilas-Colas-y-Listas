@@ -1,6 +1,7 @@
 /*
 Dada una pila y un valor I, desarrollar un procedimiento que elimine los 2 primeros nodos ​​de ​​la ​​pila ​​y ​​deje ​​el​​ valor​ ​I ​​como​ ​primero.
 ​​(Definir​​ parámetros ​​y ​​codificar).
+Ayuda de Lu: sí la cabecera apunta al ultimo nodo que seria N, y para modificar el primero y segundo nodo, tenes que utilizar una pila aux, para cambiar el orden de los nodos y poder borrar la primera y segunda posición, una vez que lo hiciste como bien decis se debe ingresar el valor I, y luego volves a pasar los nodos a la pila original para que te quede I en la primer posición, esto es lo que pide el ejercicio
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,8 +20,8 @@ typedef struct NODO
  */
 BOOL empty(ST_NODO **cabecera)
 {
-    printf("%p, %p\n", (*cabecera)->partner, *cabecera);
-    return (*cabecera)->partner == NULL?TRUE:FALSE;
+    //printf("%p, %p\n", (*cabecera)->partner, *cabecera);
+    return cabecera==NULL;
 }
 
 BOOL push(ST_NODO **cabecera, int valor)
@@ -35,12 +36,18 @@ BOOL push(ST_NODO **cabecera, int valor)
     return TRUE;
 }
 
+/**
+ * @param ST_NODO **cabecera recibe la dirección de la cabecera
+ * @param int reputacionI recibe el valor a poner en el nuevo nodo
+ */
 void resolverParcial(ST_NODO **cabecera, int reputacionI)
 {
-    struct ST_NODO *cabeceraAuxiliar = *cabecera; // Esta cabecera me va a permitir moverme por los nodos
-    while( !empty(cabecera) ) // Mientras no encuentre el primer nodo (que apunta a NULL, osea está "vacío") el while() corre
+    int n = 0;
+    ST_NODO *cabeceraAux = *cabecera;
+    while( !empty(&cabeceraAux) ) // Mientras no encuentre el primer nodo (que apunta a NULL, osea está "vacío") el while() corre
     {
-        cabeceraAuxiliar = (*cabecera)->partner; // La idea es que acá me guardo el nodo anterior
+        cabeceraAux = *cabecera;
+        n++;
     }
 }
 
@@ -54,7 +61,7 @@ int main()
     for(int i = 0;i < 5;i++)
     {
         push(&cabecera, reputacionDelLibro[i]); // Creo un nodo por iteración 
-        printf("Estado de la cabecera: %s\n", empty(&cabecera) == 1?"La cabecera apunta a NULL":"La cabecera apunta al nodo anterior");
+        //printf("Estado de la cabecera: %s\n", empty(&cabecera) == 1?"La cabecera apunta a NULL":"La cabecera apunta al nodo anterior");
     }
     // Fin del Lote de prueba
 
