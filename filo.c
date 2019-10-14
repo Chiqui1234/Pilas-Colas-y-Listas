@@ -44,9 +44,9 @@ void resolverParcial(ST_NODO **cabecera, int reputacionI)
 {
     int n = 0;
     ST_NODO *cabeceraAux = *cabecera;
-    while( !empty(&cabeceraAux) ) // Mientras no encuentre el primer nodo (que apunta a NULL, osea está "vacío") el while() corre
+    while( !empty(cabeceraAux) ) // Mientras no encuentre el primer nodo (que apunta a NULL, osea está "vacío") el while() corre
     {
-        cabeceraAux = *cabecera;
+        cabeceraAux = (*cabecera)->partner;
         n++;
     }
 }
