@@ -1,0 +1,1 @@
+[Configuración del debugger en WSL](https://code.visualstudio.com/docs/cpp/config-wsl).

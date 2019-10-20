@@ -5,18 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "gcc build and debug",
+            "name": "(gdb) Launch",
+            "preLaunchTask": "build",
             "type": "cppdbg",
             "request": "launch",
-            //"program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
-            "program": "${fileDirname}/filo.o",
+            //"program": "${workspaceFolder}${file}",
+            "program": "${workspaceFolder}/${fileBasenameNoExtension}.o",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
-            "miDebuggerPath": "gdb",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",
@@ -24,7 +24,6 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "gcc build"
         }
     ]
 }
