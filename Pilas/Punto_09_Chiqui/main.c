@@ -37,23 +37,13 @@ BOOL is_empty(ST_NODE *head)
 
 ST_NODE * order(ST_NODE **head)
 {
-    int aux1, aux2; // Acá guardo los valores del nodo analizado y el siguiente, para compararlos
-    ST_NODE *aux = NULL; // Cabecera/Pila auxiliar
+    ST_NODE *aux1, *aux2 = NULL; // Cabecera/Pila auxiliar
+    int a1, a2;
+    a1 = pop(head);
+    a2 = pop(head);
     while( !is_empty(*head) ) // Mientras la pila tenga algún nodo
     {
-        //printf("Hola mamá, estoy en Internet!\n");
-        aux1 = pop(head);
-        aux2 = pop(head);
-        if(aux1 < aux2)
-        {
-            push(&aux, aux1);
-            push(&aux, aux2);
-        }
-        else
-        {
-            push(&aux, aux2);
-            push(&aux, aux1);
-        }    
+        
     }
     //return aux;
 }
