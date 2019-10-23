@@ -1,0 +1,20 @@
+{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "gcc build",
+            "command": "gcc",
+            "args": [
+                "-g",
+                "${fileDirname}/main.c",
+                "${fileDirname}/funciones.c",
+                "-o",
+                "${fileDirname}/main"
+            ],
+            "options": {
+                "cwd": "/usr/bin"
+            }
+        }
+    ],
+    "version": "2.0.0"
+}
