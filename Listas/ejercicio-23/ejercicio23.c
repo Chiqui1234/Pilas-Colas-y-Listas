@@ -35,10 +35,13 @@ typedef struct
     short int divisionAsignada; // 2 bytes
 } ST_BIN;
 
+/**
+ * Estructura para el nodo
+ */
 typedef struct nodo
 {
-    int legajo;
-    struct nodo *ste;
+    int legajo; // 4 bytes
+    struct nodo *ste; // 4 bytes
 } ST_NODO;
 
 void error(const char *text)
@@ -83,9 +86,12 @@ ST_NODO *insertarOrdenado(ST_NODO **cabecera, ST_BIN dato)
     return nuevoNodo;
 }
 
-void crearPup()
+void crearPup(ST_BIN lectura, ST_NODO *ultimoNodoAgregado)
 {
-    printf("crearPup()");
+    FILE *archivoPup = open(OUTPUT_BIN, "r+b");
+    fseek(archivoPup, sizeof(ST_BIN)*lectura.legajo, SEEK_SET); // Me posiciono en el espacio correspondiente al legajo
+    fwrite(&lectura, sizeof(ST_BIN), 1, archivoPup); // Escribo la wea cuántica
+    fclose(archivoPup);
 }
 
 void crearBinarioDePrueba()
@@ -108,13 +114,14 @@ int main()
     // Hago un algoritmo que acomode la lista según van entrando los legajos nuevos
     ST_BIN lectura;
     ST_NODO *cabecera = NULL;
+    ST_NODO *ultimoNodoAgregado = NULL;
     FILE *entrada = open(INPUT_BIN, "rb");
     crearBinarioDePrueba();
-    /*fread(&lectura, sizeof(ST_BIN), 1, entrada);
+    fread(&lectura, sizeof(ST_BIN), 1, entrada);
     while( !feof(entrada) )
     {
-        insertarOrdenado(&cabecera, lectura); // Insertará en la cabecera el legajo de forma ordenada
-        crearPup(lectura); // Ubicará en el archivo el registro del alumno completo
+        ultimoNodoAgregado = insertarOrdenado(&cabecera, lectura); // Insertará en la cabecera el legajo de forma ordenada
+        crearPup(lectura, ultimoNodoAgregado); // Ubicará en el archivo el registro del alumno completo
     }
-    fclose(entrada);*/
+    fclose(entrada);
 }
