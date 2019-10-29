@@ -72,7 +72,7 @@ ST_NODO *insertarOrdenado(ST_NODO **cabecera, ST_BIN dato)
     ST_NODO *nuevoNodo = crearNodo(dato);
     ST_NODO *aux = *cabecera;
     ST_NODO *anterior = NULL;
-    while( aux && aux->legajo < dato.legajo )
+    while( aux && dato.legajo > aux->legajo )
     {
         anterior = aux;
         aux = aux->ste;
@@ -88,7 +88,7 @@ ST_NODO *insertarOrdenado(ST_NODO **cabecera, ST_BIN dato)
 
 void crearPup(ST_BIN lectura, ST_NODO *ultimoNodoAgregado)
 {
-    FILE *archivoPup = open(OUTPUT_BIN, "r+b");
+    FILE *archivoPup = open(OUTPUT_BIN, "a+b");
     fseek(archivoPup, sizeof(ST_BIN)*lectura.legajo, SEEK_SET); // Me posiciono en el espacio correspondiente al legajo
     fwrite(&lectura, sizeof(ST_BIN), 1, archivoPup); // Escribo la wea cuántica
     fclose(archivoPup);
@@ -100,12 +100,37 @@ void crearBinarioDePrueba()
     ST_BIN dummie;
     for(int i = 0;i < CANT_ALUMNOS;i++)
     {
-        dummie.legajo = rand() % 1000; // El lote de prueba lo hago con 3 dígitos en vez de 6 porque soy re heavy re jodido. Debería funcionar igual con 6 digitos por legajo :)
+        dummie.legajo = rand() % 10000; // El lote de prueba lo hago con 4 dígitos en vez de 6 porque soy re heavy re jodido. Debería funcionar igual con 6 digitos por legajo :)
         strncpy(dummie.nombre, "Personita", 34+1);
         dummie.divisionAsignada = rand() % 100+1;
         fwrite(&dummie, sizeof(ST_BIN), 1, entrada);
     }
     fclose(entrada);
+}
+
+void mostrarBinarioDePrueba()
+{
+    FILE *entrada = open(INPUT_BIN, "a+b");
+    ST_BIN dummie;
+    fread(&dummie, sizeof(ST_BIN), 1, entrada);
+    while( !feof(entrada) )
+    {
+        printf("Legajo leído: %d\n", dummie.legajo);
+        fread(&dummie, sizeof(ST_BIN), 1, entrada);
+    }
+    fclose(entrada);
+}
+
+void mostrarSalida()
+{
+    FILE *salida = open(OUTPUT_BIN, "r+b");
+    ST_BIN dummie;
+    fread(&dummie, sizeof(ST_BIN), 1, salida);
+    while( !feof(salida) )
+    {
+        printf("Legajo: %d\n", dummie.legajo);
+        fread(&dummie, sizeof(ST_BIN), 1, salida);
+    }
 }
 
 int main()
@@ -115,13 +140,16 @@ int main()
     ST_BIN lectura;
     ST_NODO *cabecera = NULL;
     ST_NODO *ultimoNodoAgregado = NULL;
-    FILE *entrada = open(INPUT_BIN, "rb");
-    crearBinarioDePrueba();
-    fread(&lectura, sizeof(ST_BIN), 1, entrada);
-    while( !feof(entrada) )
-    {
-        ultimoNodoAgregado = insertarOrdenado(&cabecera, lectura); // Insertará en la cabecera el legajo de forma ordenada
-        crearPup(lectura, ultimoNodoAgregado); // Ubicará en el archivo el registro del alumno completo
-    }
-    fclose(entrada);
+    // crearBinarioDePrueba();
+    // mostrarBinarioDePrueba();
+    mostrarSalida();
+    // FILE *entrada = open(INPUT_BIN, "r+b");
+    // fread(&lectura, sizeof(ST_BIN), 1, entrada);
+    // while( !feof(entrada) )
+    // {
+    //     ultimoNodoAgregado = insertarOrdenado(&cabecera, lectura); // Insertará en la cabecera el legajo de forma ordenada
+    //     crearPup(lectura, ultimoNodoAgregado); // Ubicará en el archivo el registro del alumno completo
+    //     fread(&lectura, sizeof(ST_BIN), 1, entrada);
+    // }
+    // fclose(entrada);
 }
