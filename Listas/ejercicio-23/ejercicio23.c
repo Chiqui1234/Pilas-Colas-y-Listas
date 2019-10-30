@@ -40,7 +40,7 @@ typedef struct
  */
 typedef struct nodo
 {
-    int id; // 4 bytes
+    int pos; // 4 bytes
     int legajo; // 4 bytes
     struct nodo *ste; // 4 bytes
 } ST_NODO;
@@ -60,18 +60,18 @@ FILE *open(const char *nombre, const char *modo)
     return nuevoArchivo; 
 }
 
-ST_NODO *crearNodo(ST_BIN dato, int id)
+ST_NODO *crearNodo(ST_BIN dato)
 {
     ST_NODO *nuevoNodo = (ST_NODO*) malloc(sizeof(ST_NODO));
     nuevoNodo->legajo = dato.legajo;
-    nuevoNodo->id = id;
     nuevoNodo->ste = NULL;
+    // nuevoNodo->pos lo modifico con crearPup
     return nuevoNodo;
 }
 
-ST_NODO *insertarOrdenado(ST_NODO **cabecera, ST_BIN dato, int id)
+ST_NODO *insertarOrdenado(ST_NODO **cabecera, ST_BIN dato)
 {
-    ST_NODO *nuevoNodo = crearNodo(dato, id);
+    ST_NODO *nuevoNodo = crearNodo(dato);
     ST_NODO *aux = *cabecera;
     ST_NODO *anterior = NULL;
     while( aux && dato.legajo > aux->legajo )
@@ -88,12 +88,10 @@ ST_NODO *insertarOrdenado(ST_NODO **cabecera, ST_BIN dato, int id)
     return nuevoNodo;
 }
 
-void crearPup(ST_BIN lectura, ST_NODO *ultimoNodoAgregado)
+void crearPup(ST_BIN lectura, ST_NODO *ultimoNodoAgregado, int *pos)
 {
-    FILE *archivoPup = open(OUTPUT_BIN, "a+b");
-    fseek(archivoPup, sizeof(ST_BIN)*lectura.legajo, SEEK_SET); // Me posiciono en el espacio correspondiente al legajo
-    fwrite(&lectura, sizeof(ST_BIN), 1, archivoPup); // Escribo la wea cuántica
-    fclose(archivoPup);
+    
+    ultimoNodoAgregado->pos = *pos;
 }
 
 void crearBinarioDeEntrada()
@@ -102,7 +100,7 @@ void crearBinarioDeEntrada()
     ST_BIN dummie;
     for(int i = 0;i < CANT_ALUMNOS;i++)
     {
-        dummie.legajo = rand() % 10000; // El lote de prueba lo hago con 4 dígitos en vez de 6 porque soy re heavy re jodido. Debería funcionar igual con 6 digitos por legajo :)
+        dummie.legajo = rand() % 1000000;
         strncpy(dummie.nombre, "Personita", 34+1);
         dummie.divisionAsignada = rand() % 100+1;
         fwrite(&dummie, sizeof(ST_BIN), 1, entrada);
@@ -123,17 +121,13 @@ void mostrarBinarioDeEntrada()
     fclose(entrada);
 }
 
-void mostrarSalida(ST_NODO **cabecera)
+void mostrarListaOrdenada(ST_NODO *cabecera)
 {
-    ST_NODO *aux = *cabecera;
-    FILE *salida = open(OUTPUT_BIN, "r+b");
-    ST_BIN dummie;
-    fread(&dummie, sizeof(ST_BIN)*aux->id, 1, salida);
-    while( !feof(salida) )
+    FILE *entrada = open(INPUT_BIN, "rb");
+    while( !feof(entrada) && cabecera->ste )
     {
-        aux = aux->ste;
-        printf("Legajo salida: %d\n", dummie.legajo);
-        fread(&dummie, sizeof(ST_BIN), 1, salida);
+        fseek(entrada, sizeof(ST_NODO)*(cabecera->pos), SEEK_SET);
+        cabecera = cabecera->ste;
     }
     
 }
@@ -145,17 +139,20 @@ int main()
     ST_BIN lectura;
     ST_NODO *cabecera = NULL;
     ST_NODO *ultimoNodoAgregado = NULL;
-    int pos = 0;
+    int pos = 0, i = 0;
     crearBinarioDeEntrada();
-    mostrarBinarioDeEntrada();
+    //mostrarBinarioDeEntrada();
     FILE *entrada = open(INPUT_BIN, "r+b");
     fread(&lectura, sizeof(ST_BIN), 1, entrada);
+    ultimoNodoAgregado = insertarOrdenado(&cabecera, lectura); // Insertará en la cabecera el legajo de forma ordenada
+    crearPup(lectura, ultimoNodoAgregado, &pos);
     while( !feof(entrada) )
     {
-        ultimoNodoAgregado = insertarOrdenado(&cabecera, lectura, pos); // Insertará en la cabecera el legajo de forma ordenada
-        crearPup(lectura, ultimoNodoAgregado); // Ubicará en el archivo el registro del alumno completo
+        i++;
+        ultimoNodoAgregado = insertarOrdenado(&cabecera, lectura); // Insertará en la cabecera el legajo de forma ordenada
+        pos = ftell(entrada) / i;
+        crearPup(lectura, ultimoNodoAgregado, &pos); // Ubicará en el archivo el registro del alumno completo
         fread(&lectura, sizeof(ST_BIN), 1, entrada);
     }
     fclose(entrada);
-    mostrarSalida(&cabecera);
 }
