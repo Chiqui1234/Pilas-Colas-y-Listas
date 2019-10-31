@@ -1,19 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#define CANT_ALUMNOS 100
-#define INPUT_BIN "entrada.bin"
-#define OUTPUT_BIN "salida.bin"
-/**
- * Char: 1 byte
- * Puntero: 4 bytes
- * Entero: 4 bytes
- * Coma flotante: 8 bytes
- * Bool (enum): 4 bytes
- * Bool: 1 byte
- *** Si usamos "short" la cantidad de bytes es la mitad.
- *** Si usamos "long" la cantidad de bytes es el doble.
- */
+#include "funciones.h"
 
 /**
  * Dado un archivo de registros de alumnos ARCHA sin ningún orden, donde cada registro contiene:
@@ -23,27 +8,6 @@
  * Nota: Memoria estática 64 KB; dinámica suficiente si ningún​ ​nodo​ ​ocupa​ ​más​ ​de​ ​12​ ​bytes. 
  */
 // ftell se divide por la posición del registro, porque ftell() devuelve un long int
-
-/**
- *  Estructura para leer el archivo ARCHA. Memoria estática
- *  41 bytes
- */
-typedef struct 
-{
-    int legajo; // 4 bytes, puede ir de 0 a 999.999
-    char nombre[34+1]; // 35 bytes
-    short int divisionAsignada; // 2 bytes
-} ST_BIN;
-
-/**
- * Estructura para el nodo
- */
-typedef struct nodo
-{
-    int id; // 4 bytes
-    int legajo; // 4 bytes
-    struct nodo *ste; // 4 bytes
-} ST_NODO;
 
 void error(const char *text)
 {
@@ -60,18 +24,19 @@ FILE *open(const char *nombre, const char *modo)
     return nuevoArchivo; 
 }
 
-ST_NODO *crearNodo(ST_BIN dato, int id)
+ST_NODO *crearNodo(ST_BIN dato, int pos)
 {
     ST_NODO *nuevoNodo = (ST_NODO*) malloc(sizeof(ST_NODO));
+    // chequear el espacio en memoria
     nuevoNodo->legajo = dato.legajo;
-    nuevoNodo->id = id;
+    nuevoNodo->pup = pos;
     nuevoNodo->ste = NULL;
     return nuevoNodo;
 }
 
-ST_NODO *insertarOrdenado(ST_NODO **cabecera, ST_BIN dato, int id)
+ST_NODO *insertarOrdenado(ST_NODO **cabecera, ST_BIN dato, int pos)
 {
-    ST_NODO *nuevoNodo = crearNodo(dato, id);
+    ST_NODO *nuevoNodo = crearNodo(dato, pos);
     ST_NODO *aux = *cabecera;
     ST_NODO *anterior = NULL;
     while( aux && dato.legajo > aux->legajo )
@@ -84,6 +49,7 @@ ST_NODO *insertarOrdenado(ST_NODO **cabecera, ST_BIN dato, int id)
     else 
         *cabecera = nuevoNodo;
 
+    // nuevoNodo->pup = pos;
     nuevoNodo->ste = aux; // enlazo el nodo nuevo con el resto de la lista (debería tener valores mayores a nuevoNodo->legajo)
     return nuevoNodo;
 }
@@ -94,48 +60,6 @@ void crearPup(ST_BIN lectura, ST_NODO *ultimoNodoAgregado)
     fseek(archivoPup, sizeof(ST_BIN)*lectura.legajo, SEEK_SET); // Me posiciono en el espacio correspondiente al legajo
     fwrite(&lectura, sizeof(ST_BIN), 1, archivoPup); // Escribo la wea cuántica
     fclose(archivoPup);
-}
-
-void crearBinarioDeEntrada()
-{
-    FILE *entrada = open(INPUT_BIN, "a+b");
-    ST_BIN dummie;
-    for(int i = 0;i < CANT_ALUMNOS;i++)
-    {
-        dummie.legajo = rand() % 10000; // El lote de prueba lo hago con 4 dígitos en vez de 6 porque soy re heavy re jodido. Debería funcionar igual con 6 digitos por legajo :)
-        strncpy(dummie.nombre, "Personita", 34+1);
-        dummie.divisionAsignada = rand() % 100+1;
-        fwrite(&dummie, sizeof(ST_BIN), 1, entrada);
-    }
-    fclose(entrada);
-}
-
-void mostrarBinarioDeEntrada()
-{
-    FILE *entrada = open(INPUT_BIN, "a+b");
-    ST_BIN dummie;
-    fread(&dummie, sizeof(ST_BIN), 1, entrada);
-    while( !feof(entrada) )
-    {
-        printf("Legajo entrada: %d\n", dummie.legajo);
-        fread(&dummie, sizeof(ST_BIN), 1, entrada);
-    }
-    fclose(entrada);
-}
-
-void mostrarSalida(ST_NODO **cabecera)
-{
-    ST_NODO *aux = *cabecera;
-    FILE *salida = open(OUTPUT_BIN, "r+b");
-    ST_BIN dummie;
-    fread(&dummie, sizeof(ST_BIN)*aux->id, 1, salida);
-    while( !feof(salida) )
-    {
-        aux = aux->ste;
-        printf("Legajo salida: %d\n", dummie.legajo);
-        fread(&dummie, sizeof(ST_BIN), 1, salida);
-    }
-    
 }
 
 int main()
@@ -153,9 +77,11 @@ int main()
     while( !feof(entrada) )
     {
         ultimoNodoAgregado = insertarOrdenado(&cabecera, lectura, pos); // Insertará en la cabecera el legajo de forma ordenada
-        crearPup(lectura, ultimoNodoAgregado); // Ubicará en el archivo el registro del alumno completo
+        // crearPup(lectura, ultimoNodoAgregado, pos); // Ubicará en el archivo el registro del alumno completo
         fread(&lectura, sizeof(ST_BIN), 1, entrada);
+        pos++;
     }
     fclose(entrada);
-    mostrarSalida(&cabecera);
+    //mostrarSalida(&cabecera);
+    mostrarLista(&cabecera);
 }
