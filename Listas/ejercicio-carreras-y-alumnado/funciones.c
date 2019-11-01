@@ -41,9 +41,16 @@ ST_ALUMNO *crearAlumno(ST_ALUMNO *bot, int idAlumno)
     return nuevoAlumno;
 }
 
+ST_NODO parsearLinea(const char *buffer)
+{
+    
+}
+
 void crearTxtDePrueba()
 {
-
+    FILE *txtDePrueba = open(INPUT_TXT, "w");
+    fprintf(txtDePrueba, "01;Tecnicatura Superior en Sistemas Informáticos;1234\n01;Tecnicatura Superior en Sistemas Informáticos;1224\n02;Medicina;03\n02;Medicina;04");
+    fclose(txtDePrueba);
 }
 
 void crearBinarioDePrueba()
@@ -53,9 +60,11 @@ void crearBinarioDePrueba()
 
 FILE *open(const char *nombre, const char *permiso)
 {
-    FILE *aux = fopen(nombre, permiso);
-    if( aux != NULL )
-        return aux;
-    
-    return NULL;
+    FILE *aux = NULL;
+    if( (aux = fopen(nombre, permiso)) == NULL )
+    {
+        printf("Imposible abrir el archivo.\n");
+        return 1;
+    }
+    return aux;
 }
