@@ -11,15 +11,15 @@ int main()
     ST_TXT lecturaTxt; // Acá guardo la lectura del archivo de texto (parseada)
     char buffer[100] = ""; // Acá guardo la lectura del archivo de texto, línea a línea
     fseek(txtDeEntrada, 0, SEEK_SET);
-    fgets(buffer, 100, txtDeEntrada);
+    
     while( !feof(txtDeEntrada) )
     {
-        printf("Lectura: %s", buffer);
-        lecturaTxt = parsearLinea(buffer); // Convierte la línea de texto en idCarrera, nombreCarrera y legajo
         fgets(buffer, 100, txtDeEntrada);
         printf("Lectura: %s", buffer);
+        lecturaTxt = parsearLinea(buffer); // Convierte la línea de texto en idCarrera, nombreCarrera y legajo
         // insertarOrdenadoNoDuplicado(&cabeceraCarrera, lecturaTxt);
     }
+    // Me queda el último registro afuera OJO
     // crearTxtSalida(&cabeceraCarrera);
     fclose(txtDeEntrada);
     //fclose(binDeEntrada);
