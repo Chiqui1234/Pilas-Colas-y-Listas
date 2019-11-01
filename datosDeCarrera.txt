@@ -1,0 +1,4 @@
+01;Tecnicatura Superior en Sistemas Informáticos;1234
+01;Tecnicatura Superior en Sistemas Informáticos;1224
+02;Medicina;03
+02;Medicina;04
