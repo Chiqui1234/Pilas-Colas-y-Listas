@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#define INPUT_TXT "datosDeCarrera.txt"
+#define INPUT_BIN "alumnos.bin"
 
-// Lectura del binario
-typedef struct
+
+typedef struct // Lectura del binario
 {
     int idAlumno;
     char nombre[40+1];
@@ -10,20 +12,20 @@ typedef struct
     char email[20+1];
 } ST_BIN;
 
-typedef struct
+typedef struct // Lectura del archivo de texto
 {
-    int idCarrera;
-    int idAlumno;
+    int idCarrera; // Estos valores se leen cómo char, pero se convierten en runtime
+    int idAlumno; // Estos valores se leen cómo char, pero se convierten en runtime
     char nombreCarrera[20+1];
 } ST_TXT;
 
-typedef struct alumno
+typedef struct alumno // Nodo de los alumnos
 {
     int idAlumno;
     struct alumno *bot;
 } ST_ALUMNO;
 
-typedef struct nodo
+typedef struct nodo // Nodo de las carreras
 {
     int idCarrera;
     // char nombreCarrera[20+1];
@@ -31,7 +33,7 @@ typedef struct nodo
     struct alumno *bot;
 } ST_NODO;
 
-ST_NODO *insertarOrdenadoNoDuplicado(ST_NODO **cabecera, int idCarrera);
+ST_NODO *insertarOrdenadoNoDuplicado(ST_NODO **cabecera, ST_TXT dato);
 
 /**
  * DIAGRAMA DE LISTA DE LISTA
