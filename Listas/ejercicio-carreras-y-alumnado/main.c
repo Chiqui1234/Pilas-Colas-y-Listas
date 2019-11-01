@@ -14,10 +14,10 @@ int main()
     fgets(buffer, 100, txtDeEntrada);
     while( !feof(txtDeEntrada) )
     {
-        printf("leyendo... %s", buffer);
+        printf("Lectura: %s", buffer);
         lecturaTxt = parsearLinea(buffer); // Convierte la línea de texto en idCarrera, nombreCarrera y legajo
         fgets(buffer, 100, txtDeEntrada);
-        printf("leyendo...\n\"%s\"\n", buffer);
+        printf("Lectura: %s", buffer);
         // insertarOrdenadoNoDuplicado(&cabeceraCarrera, lecturaTxt);
     }
     // crearTxtSalida(&cabeceraCarrera);

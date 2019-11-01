@@ -41,9 +41,9 @@ ST_ALUMNO *crearAlumno(ST_ALUMNO *bot, int idAlumno)
     return nuevoAlumno;
 }
 
-ST_NODO parsearLinea(const char *buffer)
+ST_TXT parsearLinea(const char *buffer)
 {
-    
+
 }
 
 void crearTxtDePrueba()

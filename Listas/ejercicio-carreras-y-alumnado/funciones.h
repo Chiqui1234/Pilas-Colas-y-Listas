@@ -40,7 +40,7 @@ void crearBinarioDePrueba();
 ST_NODO *crearCarrera(ST_NODO *aux, int idCarrera);
 ST_ALUMNO *crearAlumno(ST_ALUMNO *bot, int idAlumno);
 void crearTxtSalida(ST_NODO **cabecera);
-ST_NODO parsearLinea(const char *buffer);
+ST_TXT parsearLinea(const char *buffer);
 /**
  * DIAGRAMA DE LISTA DE LISTA
  * CARRERA001       CARRERA002      CARRERA003
