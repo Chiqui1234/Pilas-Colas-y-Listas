@@ -34,7 +34,11 @@ typedef struct nodo // Nodo de las carreras
 } ST_NODO;
 
 ST_NODO *insertarOrdenadoNoDuplicado(ST_NODO **cabecera, ST_TXT dato);
-
+void crearTxtDePrueba();
+void crearBinarioDePrueba();
+ST_NODO *crearCarrera(ST_NODO *aux, int idCarrera);
+ST_ALUMNO *crearAlumno(ST_ALUMNO *bot, int idAlumno);
+void crearTxtSalida(ST_NODO **cabecera);
 /**
  * DIAGRAMA DE LISTA DE LISTA
  * CARRERA001       CARRERA002      CARRERA003

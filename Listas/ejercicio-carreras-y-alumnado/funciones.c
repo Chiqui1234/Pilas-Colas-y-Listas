@@ -20,3 +20,42 @@ ST_NODO *insertarOrdenadoNoDuplicado(ST_NODO **cabecera, ST_TXT dato)
         
     }
 }
+
+ST_NODO *crearCarrera(ST_NODO *aux, int idCarrera)
+{
+    ST_NODO *nuevaCarrera = (ST_NODO*) malloc(sizeof(ST_NODO));
+    aux->ste = nuevaCarrera;
+    nuevaCarrera->ste = NULL;
+    // nuevaCarrera->bot = NULL;
+    nuevaCarrera->bot = aux->bot; // en la misma línea del txt, levanto un legajo y lo meto junto con la carrera
+    return nuevaCarrera;
+}
+
+ST_ALUMNO *crearAlumno(ST_ALUMNO *bot, int idAlumno)
+{
+    ST_ALUMNO *nuevoAlumno = (ST_ALUMNO*) malloc(sizeof(ST_ALUMNO));
+    bot->bot = nuevoAlumno->bot;
+
+    nuevoAlumno->idAlumno = idAlumno;
+    nuevoAlumno->bot = NULL;
+    return nuevoAlumno;
+}
+
+void crearTxtDePrueba()
+{
+
+}
+
+void crearBinarioDePrueba()
+{
+
+}
+
+FILE *open(const char *nombre, const char *permiso)
+{
+    FILE *aux = fopen(nombre, permiso);
+    if( aux != NULL )
+        return aux;
+    
+    return NULL;
+}
