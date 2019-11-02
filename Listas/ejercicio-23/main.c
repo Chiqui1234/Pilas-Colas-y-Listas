@@ -9,6 +9,30 @@
  */
 // ftell se divide por la posición del registro, porque ftell() devuelve un long int
 
+<<<<<<< HEAD:Listas/ejercicio-23/ejercicio23.c
+/**
+ *  Estructura para leer el archivo ARCHA. Memoria estática
+ *  41 bytes
+ */
+typedef struct 
+{
+    int legajo; // 4 bytes, puede ir de 0 a 999.999
+    char nombre[34+1]; // 35 bytes
+    short int divisionAsignada; // 2 bytes
+} ST_BIN;
+
+/**
+ * Estructura para el nodo
+ */
+typedef struct nodo
+{
+    int pos; // 4 bytes
+    int legajo; // 4 bytes
+    struct nodo *ste; // 4 bytes
+} ST_NODO;
+
+=======
+>>>>>>> 51b957e48c47e0d68c678cca358277ee061e8816:Listas/ejercicio-23/main.c
 void error(const char *text)
 {
     printf("%s\n", text);
@@ -24,19 +48,33 @@ FILE *open(const char *nombre, const char *modo)
     return nuevoArchivo; 
 }
 
+<<<<<<< HEAD:Listas/ejercicio-23/ejercicio23.c
+ST_NODO *crearNodo(ST_BIN dato)
+=======
 ST_NODO *crearNodo(ST_BIN dato, int pos)
+>>>>>>> 51b957e48c47e0d68c678cca358277ee061e8816:Listas/ejercicio-23/main.c
 {
     ST_NODO *nuevoNodo = (ST_NODO*) malloc(sizeof(ST_NODO));
     // chequear el espacio en memoria
     nuevoNodo->legajo = dato.legajo;
+<<<<<<< HEAD:Listas/ejercicio-23/ejercicio23.c
+=======
     nuevoNodo->pup = pos;
+>>>>>>> 51b957e48c47e0d68c678cca358277ee061e8816:Listas/ejercicio-23/main.c
     nuevoNodo->ste = NULL;
+    // nuevoNodo->pos lo modifico con crearPup
     return nuevoNodo;
 }
 
+<<<<<<< HEAD:Listas/ejercicio-23/ejercicio23.c
+ST_NODO *insertarOrdenado(ST_NODO **cabecera, ST_BIN dato)
+{
+    ST_NODO *nuevoNodo = crearNodo(dato);
+=======
 ST_NODO *insertarOrdenado(ST_NODO **cabecera, ST_BIN dato, int pos)
 {
     ST_NODO *nuevoNodo = crearNodo(dato, pos);
+>>>>>>> 51b957e48c47e0d68c678cca358277ee061e8816:Listas/ejercicio-23/main.c
     ST_NODO *aux = *cabecera;
     ST_NODO *anterior = NULL;
     while( aux && dato.legajo > aux->legajo )
@@ -54,14 +92,53 @@ ST_NODO *insertarOrdenado(ST_NODO **cabecera, ST_BIN dato, int pos)
     return nuevoNodo;
 }
 
-void crearPup(ST_BIN lectura, ST_NODO *ultimoNodoAgregado)
+void crearPup(ST_BIN lectura, ST_NODO *ultimoNodoAgregado, int *pos)
 {
-    FILE *archivoPup = open(OUTPUT_BIN, "a+b");
-    fseek(archivoPup, sizeof(ST_BIN)*lectura.legajo, SEEK_SET); // Me posiciono en el espacio correspondiente al legajo
-    fwrite(&lectura, sizeof(ST_BIN), 1, archivoPup); // Escribo la wea cuántica
-    fclose(archivoPup);
+    
+    ultimoNodoAgregado->pos = *pos;
 }
 
+<<<<<<< HEAD:Listas/ejercicio-23/ejercicio23.c
+void crearBinarioDeEntrada()
+{
+    FILE *entrada = open(INPUT_BIN, "a+b");
+    ST_BIN dummie;
+    for(int i = 0;i < CANT_ALUMNOS;i++)
+    {
+        dummie.legajo = rand() % 1000000;
+        strncpy(dummie.nombre, "Personita", 34+1);
+        dummie.divisionAsignada = rand() % 100+1;
+        fwrite(&dummie, sizeof(ST_BIN), 1, entrada);
+    }
+    fclose(entrada);
+}
+
+void mostrarBinarioDeEntrada()
+{
+    FILE *entrada = open(INPUT_BIN, "a+b");
+    ST_BIN dummie;
+    fread(&dummie, sizeof(ST_BIN), 1, entrada);
+    while( !feof(entrada) )
+    {
+        printf("Legajo entrada: %d\n", dummie.legajo);
+        fread(&dummie, sizeof(ST_BIN), 1, entrada);
+    }
+    fclose(entrada);
+}
+
+void mostrarListaOrdenada(ST_NODO *cabecera)
+{
+    FILE *entrada = open(INPUT_BIN, "rb");
+    while( !feof(entrada) && cabecera->ste )
+    {
+        fseek(entrada, sizeof(ST_NODO)*(cabecera->pos), SEEK_SET);
+        cabecera = cabecera->ste;
+    }
+    
+}
+
+=======
+>>>>>>> 51b957e48c47e0d68c678cca358277ee061e8816:Listas/ejercicio-23/main.c
 int main()
 {
     // Leo secuencialmente el archivo
@@ -69,19 +146,31 @@ int main()
     ST_BIN lectura;
     ST_NODO *cabecera = NULL;
     ST_NODO *ultimoNodoAgregado = NULL;
-    int pos = 0;
+    int pos = 0, i = 0;
     crearBinarioDeEntrada();
-    mostrarBinarioDeEntrada();
+    //mostrarBinarioDeEntrada();
     FILE *entrada = open(INPUT_BIN, "r+b");
     fread(&lectura, sizeof(ST_BIN), 1, entrada);
+    ultimoNodoAgregado = insertarOrdenado(&cabecera, lectura); // Insertará en la cabecera el legajo de forma ordenada
+    crearPup(lectura, ultimoNodoAgregado, &pos);
     while( !feof(entrada) )
     {
+<<<<<<< HEAD:Listas/ejercicio-23/ejercicio23.c
+        i++;
+        ultimoNodoAgregado = insertarOrdenado(&cabecera, lectura); // Insertará en la cabecera el legajo de forma ordenada
+        pos = ftell(entrada) / i;
+        crearPup(lectura, ultimoNodoAgregado, &pos); // Ubicará en el archivo el registro del alumno completo
+=======
         ultimoNodoAgregado = insertarOrdenado(&cabecera, lectura, pos); // Insertará en la cabecera el legajo de forma ordenada
         // crearPup(lectura, ultimoNodoAgregado, pos); // Ubicará en el archivo el registro del alumno completo
+>>>>>>> 51b957e48c47e0d68c678cca358277ee061e8816:Listas/ejercicio-23/main.c
         fread(&lectura, sizeof(ST_BIN), 1, entrada);
         pos++;
     }
     fclose(entrada);
+<<<<<<< HEAD:Listas/ejercicio-23/ejercicio23.c
+=======
     //mostrarSalida(&cabecera);
     mostrarLista(&cabecera);
+>>>>>>> 51b957e48c47e0d68c678cca358277ee061e8816:Listas/ejercicio-23/main.c
 }

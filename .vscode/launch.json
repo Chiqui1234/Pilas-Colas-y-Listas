@@ -10,7 +10,7 @@
             "type": "cppdbg",
             "request": "launch",
             //"program": "${workspaceFolder}${file}",
-            "program": "${workspaceFolder}/${fileBasenameNoExtension}.o",
+            "program": "${fileDirname}/${fileBasenameNoExtension}.o",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
