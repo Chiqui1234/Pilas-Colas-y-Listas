@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#define TXT_OUTPUT "salida.txt"
 // Lectura del binario
 typedef struct
 {
@@ -31,8 +31,10 @@ typedef struct nodo
     struct alumno *bot;
 } ST_NODO;
 
-ST_NODO *insertarOrdenadoNoDuplicado(ST_NODO **cabecera, int idCarrera);
-
+ST_NODO *insertarOrdenadoNoDuplicado(ST_NODO **cabecera, ST_TXT idCarrera);
+ST_NODO *crearCarrera(ST_NODO *aux, int idCarrera);
+ST_ALUMNO *crearAlumno(ST_ALUMNO *bot, int idAlumno);
+void crearTxtSalida(ST_NODO **cabecera);
 /**
  * DIAGRAMA DE LISTA DE LISTA
  * CARRERA001       CARRERA002      CARRERA003
