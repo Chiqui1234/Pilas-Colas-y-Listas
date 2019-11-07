@@ -1,0 +1,17 @@
+Una fábrica adquirió recientemente un conjunto de maquinarias que, dispuestas en serie y unidas por una cinta transportadora, son capaces de confeccionar distintos tipos de artículos; es suficiente con proveerle a la primera máquina un listado de aquellos juguetes que se quieren fabricar para que el resto realice lo que deba.
+La primer estación, una pc, lee un archivo binario que contiene registros con los siguientes datos:
+
+    Código de barras: 13 dígitos
+    Prioridad: 1 dígito, con valores 1, 2 o 3 (siendo el 3 más prioritario)
+    Nombre: 10 caracteres
+
+En base a la prioridad, esta primer estación ordena de mayor a menor la nómina e invoca a la función megaFactory() informándole por parámetro la estructura dinámica creada.
+La función devuelve true si todos los juguetes fueron construidos y false si se presentaron problemas; cuando esto último ocurre, el sistema debe agregar al archivo de texto error.txt la leyenda "El lote falló!".
+En caso de tener éxito, se debe llamar a la función robotAcomodador() que también recibe la misma estructura que megaFactory(); el robot debe apilar las cajas en orden, con el menor código de barra en el piso y el mayor arriba de todo.
+
+Se solicita:
+1- Implementar la lectura del archivo binario.
+2- Desarrollar la estructura dinámica (y funciones asociadas) que se le debe pasar a megaFactory() y a robotAcomodador(); tener en cuenta que sólo se admiten dos operaciones: el agregado ordenado por prioridad, y un método de salida.
+3- Desarrollar la función para el guardado de la frase de error.
+4- Implementar la función robotAcomodador() y tener en cuenta que las pilas no deben contener más de 10 bultos cada una.
+5- Mostrar en pantalla el orden en el que el robot recibió los elementos y el orden en el que terminaron.

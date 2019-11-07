@@ -1,0 +1,14 @@
+El departamento de detección de fraude del banco Kokumo Bank procesa archivos binarios con registros de transacciones todas las noches, buscando inconsistencias.
+A los efectos, el banco compara el contenido de los archivos binarios contra registros de un archivo de texto que contiene los datos sobre transacciones denunciadas.
+
+El mecanismo es el siguiente:
+1- Ni bien inicia el proceso, el archivo de texto es procesado y puesto en memoria de modo tal de tener una estructura dinámica ordenada por código de transacción; cada registro se constituye por los siguientes datos: el numero de transacción, el separador de campos (,) un número que indica si es fraudulento (2) o si está bajo sospecha (1), y el fin del registro (.).
+2- De a uno se leen los registros del archivo binario (no están ordenados) y se compara contra la nómina de fraudes a través del número de transacción y...
+a- Si el registro existe y el código de fraude es 2, el registro en el archivo binario debe anularse.
+b- Si el registro existe y el código de fraude es 1, debe agregarse dicho registro en el archivo de texto sospechoso.txt
+c- Si el registro no existe, la transacción es válida.
+3- Al finalizar el proceso, el sistema muestra en pantalla únicamente los registros válidos.
+
+Implementar el mecanismo de control de fraude; proponga una estructura para el archivo binario que satisfaga las necesidades sabiendo que obligatoriamente debe contener: código de transacción, cuenta origen, cuenta destino y monto (todos campos numéricos).
+
+No puede emplearse strtok para el parseo del archivo de texto.
